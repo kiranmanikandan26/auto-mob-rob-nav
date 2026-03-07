@@ -15,4 +15,10 @@ class APP_COLORS(Enum):
     BLUE = (0, 0, 255),
     WHITE = (255, 255, 255),
     BLACK = (0, 0, 0),
-    GREEN = (0, 255, 0)
+    GREEN = (0, 255, 0),
+    RED = (255, 0, 0),
+    YELLOW = (255, 255, 0),
+    ORG_YELLOW = (241, 196, 15),
+    PURPLE = (155, 89, 182),
+    BRI_GREEN = (46, 204, 113),
+    NAVY = (44, 62, 80)

@@ -18,6 +18,8 @@ class HomeRobot:
         self.state = RobotState.SEARCHING
         self.path = []
         self.steps = 0
+        self.total_distance = 0
+        self.obstacles_avoided = 0
         
     # ---------- Robot Movement ----------
     def update(self, target, obstacles):
@@ -40,7 +42,7 @@ class HomeRobot:
         for obstacle in obstacles:
             dx = new_x - obstacle.x
             dy = new_y - obstacle.y
-            if math.sqrt(dx*dx + dy*dy) < ROBOT_RADIUS + obstacle.radius:
+            if math.sqrt(dx * dx + dy * dy) < ROBOT_RADIUS + obstacle.radius:
                 would_collide = True
                 break
         
@@ -48,7 +50,12 @@ class HomeRobot:
             self.x, self.y = new_x, new_y
         
         # Track Total Distance
-        self.total_distance += math.sqrt((self.x - prev_x)**2 + (self.y - prev_y)**2)
+        self.total_distance += math.sqrt((self.x - prev_x) ** 2 + (self.y - prev_y) ** 2)
+
+        if self.state == RobotState.AVOIDING:
+            self.obstacles_avoided += 1
+
+        self.total_distance += math.sqrt((self.x - prev_x) ** 2 + (self.y - prev_y) ** 2)
 
     # ---------- Sensor Implementation ----------
     def sense(self, obstacles):
@@ -60,7 +67,7 @@ class HomeRobot:
             for obstacle in obstacles:
                 dx = obstacle.x - self.x
                 dy = obstacle.y - self.y
-                dist_to_center = math.sqrt(dx*dx + dy*dy)
+                dist_to_center = math.sqrt(dx * dx + dy * dy)
                 
                 angle_to_obstacle = math.atan2(dy, dx)
                 angle_diff = abs(angle_to_obstacle - ray_angle)
@@ -78,7 +85,7 @@ class HomeRobot:
         for obstacle in obstacles:
             dx = self.x - obstacle.x
             dy = self.y - obstacle.y
-            distance = math.sqrt(dx*dx + dy*dy)
+            distance = math.sqrt(dx * dx + dy * dy)
             
             if distance < ROBOT_RADIUS + obstacle.radius:
                 return True, obstacle
@@ -148,3 +155,22 @@ class HomeRobot:
         eye_y = self.y + math.sin(self.angle) * ROBOT_RADIUS * 0.5
         pygame.draw.circle(screen, APP_COLORS.WHITE, (int(eye_x), int(eye_y)), 5)
         pygame.draw.circle(screen, APP_COLORS.BLACK, (int(eye_x), int(eye_y)), 2)
+
+        for i, (angle, dist) in enumerate(zip(SENSOR_ANGLES, self.sensor_readings)):
+            ray_angle = self.angle + math.radians(angle)
+            end_x = self.x + math.cos(ray_angle) * dist
+            end_y = self.y + math.sin(ray_angle) * dist
+            
+            # Assign Color Based on Distance
+            if dist < SAFE_DISTANCE:
+                color = APP_COLORS.RED  # Red
+            elif dist < SAFE_DISTANCE * 2:
+                color = APP_COLORS.YELLOW  # Yellow
+            else:
+                color = APP_COLORS.ORG_YELLOW  # Yellow-orange
+            
+            pygame.draw.line(screen, color, (self.x, self.y), (end_x, end_y), 2)
+    
+        # Draw Path
+        if len(self.path) > 1:
+            pygame.draw.lines(screen, APP_COLORS.PURPLE, False, self.path, 2)
