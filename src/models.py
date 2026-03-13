@@ -1,3 +1,12 @@
+# ------------------------------------------------------------
+# Student Name       : Kiran Manikandan
+# Student ID         : 24062131
+# University         : University of Hertfordshire
+# Last Modifide Date : 13-03-2025
+
+# Copyright (c) 2026 Kiran Manikandan
+# ------------------------------------------------------------
+
 from enum import Enum
 from dataclasses import dataclass
 from .config import *

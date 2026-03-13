@@ -1,3 +1,12 @@
+# ------------------------------------------------------------
+# Student Name       : Kiran Manikandan
+# Student ID         : 24062131
+# University         : University of Hertfordshire
+# Last Modifide Date : 13-03-2025
+
+# Copyright (c) 2026 Kiran Manikandan
+# ------------------------------------------------------------
+
 import pygame
 import sys
 from .config import APP_COLORS, WINDOW_WIDTH, WINDOW_HEIGHT, FPS
