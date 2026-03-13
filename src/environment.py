@@ -1,6 +1,7 @@
 import pygame
 from .config import *
 from .models import Obstacle, Target
+from .robot import HomeRobot
 
 class HomeEnvironment:
 
@@ -74,13 +75,11 @@ class HomeEnvironment:
     
      # ----- Set Robot in the Environment -----
     def set_robot(self, x, y, name="Home Env Robot"):
-        from .robot import HomeRobot
         self.robot = HomeRobot(x, y, name)
         return self.robot
     
      # ----- Draw Home Background -----
     def draw_background_grid(self, screen):
-        """Draw a light grid background"""
         # Draw grid lines
         for x in range(0, self.width, 50):
             pygame.draw.line(screen, APP_COLORS.GRID, (x, 0), (x, self.height), 1)
@@ -114,7 +113,6 @@ class HomeEnvironment:
                 screen.blit(glow_surface, 
                           (self.target.x - glow_radius, self.target.y - glow_radius))
             
-            # Draw target
             pygame.draw.circle(screen, APP_COLORS.TARGET, 
                               (int(self.target.x), int(self.target.y)), self.target.radius)
             pygame.draw.circle(screen, (255, 255, 255), 

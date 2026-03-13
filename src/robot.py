@@ -61,11 +61,8 @@ class HomeRobot:
                 
                 # ----- Angular difference between ray and direction to obstacle -----
                 angle_diff = abs(angle_to_obstacle - ray_angle)
-                while angle_diff > math.pi:
-                    angle_diff -= 2 * math.pi
-                while angle_diff < -math.pi:
-                    angle_diff += 2 * math.pi
-                angle_diff = abs(angle_diff)
+                normalized_angle = normalize_angle(angle_diff)
+                angle_diff = abs(normalized_angle)
                 
                 # ----- If ray points roughly toward obstacle (within 30 degrees) -----
                 if angle_diff < math.radians(30):

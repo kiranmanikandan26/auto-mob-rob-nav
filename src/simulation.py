@@ -27,7 +27,7 @@ class SimulationManager:
         self.env.create_mixed_home_layout()
         
         # Place robot at starting position
-        self.env.set_robot(100, 100, "Robbie")
+        self.env.set_robot(100, 100, "Harry")
         
         # Set target at far corner - Kitchen area
         self.env.set_target(850, 600)
@@ -55,25 +55,25 @@ class SimulationManager:
                     # ----- Scenario 1: Mixed home -----
                     self.env.obstacles = []
                     # self.env.create_mixed_home_layout()
-                    self.env.set_robot(100, 100, "Robbie")
+                    self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
                 elif event.key == pygame.K_1:
                     # ----- Scenario 2: Living room -----
                     self.env.obstacles = []
                     self.env.create_living_room_layout()
-                    self.env.set_robot(100, 100, "Robbie")
+                    self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
                 elif event.key == pygame.K_2:
                     # ----- Scenario 3: Kitchen -----
                     self.env.obstacles = []
                     self.env.create_kitchen_layout()
-                    self.env.set_robot(100, 100, "Robbie")
+                    self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
                 elif event.key == pygame.K_3:
                     # ----- Scenario 4: Bedroom -----
                     self.env.obstacles = []
                     self.env.create_bedroom_layout()
-                    self.env.set_robot(100, 100, "Robbie")
+                    self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
     
     def update(self):

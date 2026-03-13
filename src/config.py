@@ -28,7 +28,7 @@ SENSOR_RANGE = 120
 SENSOR_ANGLES = [-60, -30, 0, 30, 60]
 SAFE_DISTANCE = ROBOT_RADIUS * 2.8
 
-# ----- Helper Function to Normalize the Robot's Angle
+# ----- Helper Function to Normalize the Robot's Angle, Used in sense method -----
 def normalize_angle(angle):
     while angle > math.pi:
         angle -= 2 * math.pi
