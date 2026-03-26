@@ -13,6 +13,7 @@ from .config import APP_COLORS, WINDOW_WIDTH, WINDOW_HEIGHT, FPS
 from .environment import HomeEnvironment
 from .user_interface import UIManager
 from .models import RobotState
+from .slam import IMPLEMENTSLAM
 
 class SimulationManager:
     def __init__(self):
@@ -23,6 +24,9 @@ class SimulationManager:
         self.running = True
         self.paused = False
         self.speed_multiplier = 1
+        #----- Slam Implementation -----
+        self.slam = IMPLEMENTSLAM(WINDOW_WIDTH, WINDOW_HEIGHT, cell_size=20)
+        self.show_slam = True
         
         # ----- Create environment -----
         self.env = HomeEnvironment(WINDOW_WIDTH, WINDOW_HEIGHT)
@@ -84,6 +88,9 @@ class SimulationManager:
                     self.env.create_bedroom_layout()
                     self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
+                elif event.key == pygame.K_s:
+                    self.show_slam = not self.show_slam
+                    print(f"SLAM display: {'ON' if self.show_slam else 'OFF'}")
     
     def update(self):
         if not self.paused and self.env.robot and self.env.target:
@@ -94,17 +101,23 @@ class SimulationManager:
                     break
     
     def run(self):
+        #----- Main simulation loop -----
         while self.running:
             self.handle_events()
             self.update()
-            
-            # ----- Clear screen fixed using APP_COLORS.BACKGROUND instead of APP_COLORS -----
+            # Clear screen - Because it adds it to the actual total
             self.screen.fill(APP_COLORS.BACKGROUND)
-            
-            # ----- Draw environment -----
+            # Draw environment - obstacles, target
             self.env.draw(self.screen)
             
-            # ----- Draw UI -----
+            #----- Draw SLAM if enabled -----
+            if hasattr(self, 'show_slam') and self.show_slam and hasattr(self, 'slam'):
+                self.slam.draw(self.screen, show_grid=True)
+                # Also draw the stats
+                if hasattr(self, 'ui'):
+                    self.ui.draw_slam_stats(self.slam)
+            
+            #----- Draw dashboard -----
             target_reached = (self.env.target and self.env.target.reached)
             self.ui.draw_dashboard(
                 self.env.robot, 
@@ -112,9 +125,9 @@ class SimulationManager:
                 self.paused, 
                 self.speed_multiplier
             )
-            self.ui.draw_target_text(target_reached)
+            self.ui.draw_target_reached(target_reached)
             
-            # ----- Update display -----
+            #----- Update display -----
             pygame.display.flip()
             self.clock.tick(FPS)
         

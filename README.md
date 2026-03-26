@@ -10,17 +10,20 @@ furniture obstacles to reach a target destination.
 
 # Project Summary
 
-## Goals Achieved
-- Robot initialization with position/orientation
-- 5-sensor obstacle detection system
-- Collision detection and avoidance
-- Multiple home environment layouts
-- Real-time visualization
-- Keyboard controls
-- Performance metrics
+## Week 1
+- Robot Core Implementation.
+- Environment Design.
+- Performance Metrics.
+- Visualization Features.
+
+## Week 4 - SLAM
+- Grid-Based Mapping.
+- Mapping Algorithm.
+- SLAM Visualization.
+- Metrics & Analytics.
+- User Interaction.
 
 ## Planned Work
-- Add SLAM-style mapping
-- Implement full GeNIE probing strategy
-- Add memory of visited locations
-- Path planning optimization
+- Demo with Supervisor.
+- Project Documentation.
+- Viva preperation.
