@@ -2,7 +2,8 @@
 # Student Name       : Kiran Manikandan
 # Student ID         : 24062131
 # University         : University of Hertfordshire
-# Last Modifide Date : 13-03-2025
+# Description        : Create, Initialize and Control the robot. Only robot's methods are present in this class.
+# Last Modifide Date : 28-03-2026
 
 # Copyright (c) 2026 Kiran Manikandan
 # ------------------------------------------------------------

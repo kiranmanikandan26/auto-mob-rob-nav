@@ -3,7 +3,7 @@
 # Student ID         : 24062131
 # University         : University of Hertfordshire
 # Description        : Manages the UI dashboard and displays
-# Last Modifide Date : 13-03-2025
+# Last Modifide Date : 28-03-2026
 
 # Copyright (c) 2026 Kiran Manikandan
 # ------------------------------------------------------------
@@ -20,7 +20,7 @@ class UIManager:
         self.small_font = pygame.font.Font(None, 20)
         
     def draw_dashboard(self, robot, target, paused, speed_multiplier):
-        #----- Draw the main UI dashboard ------
+        # ----- Draw the main UI dashboard ------
         panel = pygame.Surface((320, 280))
         panel.set_alpha(200)
         panel.fill((240, 240, 240))
@@ -93,7 +93,7 @@ class UIManager:
         self.screen.blit(speed_text, (WINDOW_WIDTH - 150, 20))
     
     def draw_target_reached(self, target_reached):
-        #----- Draw celebration effect when target reached ------
+        # ----- Draw celebration effect when target reached ------
         if target_reached:
             # Draw pulsing text
             pulse = abs(math.sin(pygame.time.get_ticks() * 0.005)) * 0.5 + 0.5
@@ -105,16 +105,16 @@ class UIManager:
             self.screen.blit(text, text_rect)
     
     def draw_slam_stats(self, slam):
-        #----- Draw SLAM statistics on screen -----
+        # ----- Draw SLAM statistics on screen -----
         stats = slam.get_stats()
         
-        #----- Draw panel with border to make it visible -----
+        # ----- Draw panel with border to make it visible -----
         panel_x = WINDOW_WIDTH - 220
         panel_y = 10
         panel_width = 210
         panel_height = 140
         
-        #----- Draw background -----
+        # ----- Draw background -----
         pygame.draw.rect(self.screen, (240, 240, 240), 
                         (panel_x, panel_y, panel_width, panel_height))
         pygame.draw.rect(self.screen, (100, 100, 100), 
@@ -125,7 +125,7 @@ class UIManager:
         self.screen.blit(title, (panel_x + 10, y))
         y += 25
         
-        #----- Show grid size -----
+        # ----- Show grid size -----
         grid_text = self.small_font.render(
             f"Grid: {slam.grid_width}x{slam.grid_height}", 
             True, (0, 0, 0))
@@ -144,6 +144,6 @@ class UIManager:
         self.screen.blit(obstacles, (panel_x + 10, y))
         y += 20
         
-        #----- Add instructions -----
+        # ----- Add instructions -----
         help_text = self.small_font.render("Press S to toggle", True, (100, 100, 100))
         self.screen.blit(help_text, (panel_x + 10, y))

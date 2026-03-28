@@ -2,7 +2,8 @@
 # Student Name       : Kiran Manikandan
 # Student ID         : 24062131
 # University         : University of Hertfordshire
-# Last Modifide Date : 13-03-2025
+# Description        : Appliccation configuration file with reusable helper functions
+# Last Modifide Date : 28-03-2026
 
 # Copyright (c) 2026 Kiran Manikandan
 # ------------------------------------------------------------
@@ -37,7 +38,8 @@ SENSOR_RANGE = 120
 SENSOR_ANGLES = [-60, -30, 0, 30, 60]
 SAFE_DISTANCE = ROBOT_RADIUS * 2.8
 
-# ----- Helper Function to Normalize the Robot's Angle, Used in sense method -----
+# ----- Helper Functions -----
+# Normalize the Robot's Angle, Used in sense method
 def normalize_angle(angle):
     while angle > math.pi:
         angle -= 2 * math.pi

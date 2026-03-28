@@ -2,7 +2,8 @@
 # Student Name       : Kiran Manikandan
 # Student ID         : 24062131
 # University         : University of Hertfordshire
-# Last Modifide Date : 13-03-2025
+# Description        : Project initialization file. File to run
+# Last Modifide Date : 28-03-2026
 
 # Copyright (c) 2026 Kiran Manikandan
 # ------------------------------------------------------------
@@ -25,7 +26,7 @@ def main():
     print("\n FEATURES:")
     print("  • 5-sensor obstacle detection")
     print("  • Real-time collision avoidance")
-    # print("  • Multiple home layouts")
+    print("  • Multiple home layouts")
     print("  • Performance tracking")
     print("\n CONTROLS:")
     print("  SPACE - Pause/Resume")

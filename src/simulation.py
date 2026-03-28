@@ -2,7 +2,8 @@
 # Student Name       : Kiran Manikandan
 # Student ID         : 24062131
 # University         : University of Hertfordshire
-# Last Modifide Date : 13-03-2025
+# Description        : Main simulation manager. Handles key controls
+# Last Modifide Date : 28-03-2026
 
 # Copyright (c) 2026 Kiran Manikandan
 # ------------------------------------------------------------
@@ -13,7 +14,7 @@ from .config import APP_COLORS, WINDOW_WIDTH, WINDOW_HEIGHT, FPS
 from .environment import HomeEnvironment
 from .user_interface import UIManager
 from .models import RobotState
-from .slam import IMPLEMENTSLAM
+from .slam import ImplementSlam
 
 class SimulationManager:
     def __init__(self):
@@ -24,8 +25,8 @@ class SimulationManager:
         self.running = True
         self.paused = False
         self.speed_multiplier = 1
-        #----- Slam Implementation -----
-        self.slam = IMPLEMENTSLAM(WINDOW_WIDTH, WINDOW_HEIGHT, cell_size=20)
+        # ----- Slam Implementation -----
+        self.slam = ImplementSlam(WINDOW_WIDTH, WINDOW_HEIGHT, cell_size=20)
         self.show_slam = True
         
         # ----- Create environment -----
@@ -67,7 +68,7 @@ class SimulationManager:
                 elif event.key == pygame.K_0:
                     # ----- Scenario 1: Mixed home -----
                     self.env.obstacles = []
-                    # self.env.create_mixed_home_layout()
+                    self.env.create_mixed_home_layout()
                     self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
                 elif event.key == pygame.K_1:
@@ -101,7 +102,7 @@ class SimulationManager:
                     break
     
     def run(self):
-        #----- Main simulation loop -----
+        # ----- Main simulation loop -----
         while self.running:
             self.handle_events()
             self.update()
@@ -110,14 +111,14 @@ class SimulationManager:
             # Draw environment - obstacles, target
             self.env.draw(self.screen)
             
-            #----- Draw SLAM if enabled -----
+            # ----- Draw SLAM if enabled -----
             if hasattr(self, 'show_slam') and self.show_slam and hasattr(self, 'slam'):
                 self.slam.draw(self.screen, show_grid=True)
                 # Also draw the stats
                 if hasattr(self, 'ui'):
                     self.ui.draw_slam_stats(self.slam)
             
-            #----- Draw dashboard -----
+            # ----- Draw dashboard -----
             target_reached = (self.env.target and self.env.target.reached)
             self.ui.draw_dashboard(
                 self.env.robot, 
@@ -127,7 +128,7 @@ class SimulationManager:
             )
             self.ui.draw_target_reached(target_reached)
             
-            #----- Update display -----
+            # ----- Update display -----
             pygame.display.flip()
             self.clock.tick(FPS)
         
