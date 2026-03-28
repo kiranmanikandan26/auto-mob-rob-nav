@@ -1,9 +1,20 @@
+# ------------------------------------------------------------
+# Student Name       : Kiran Manikandan
+# Student ID         : 24062131
+# University         : University of Hertfordshire
+# Description        : Main simulation manager. Handles key controls
+# Last Modifide Date : 28-03-2026
+
+# Copyright (c) 2026 Kiran Manikandan
+# ------------------------------------------------------------
+
 import pygame
 import sys
 from .config import APP_COLORS, WINDOW_WIDTH, WINDOW_HEIGHT, FPS
 from .environment import HomeEnvironment
 from .user_interface import UIManager
 from .models import RobotState
+from .slam import ImplementSlam
 
 class SimulationManager:
     def __init__(self):
@@ -14,6 +25,9 @@ class SimulationManager:
         self.running = True
         self.paused = False
         self.speed_multiplier = 1
+        # ----- Slam Implementation -----
+        self.slam = ImplementSlam(WINDOW_WIDTH, WINDOW_HEIGHT, cell_size=20)
+        self.show_slam = True
         
         # ----- Create environment -----
         self.env = HomeEnvironment(WINDOW_WIDTH, WINDOW_HEIGHT)
@@ -27,7 +41,7 @@ class SimulationManager:
         self.env.create_mixed_home_layout()
         
         # Place robot at starting position
-        self.env.set_robot(100, 100, "Robbie")
+        self.env.set_robot(100, 100, "Harry")
         
         # Set target at far corner - Kitchen area
         self.env.set_target(850, 600)
@@ -54,27 +68,30 @@ class SimulationManager:
                 elif event.key == pygame.K_0:
                     # ----- Scenario 1: Mixed home -----
                     self.env.obstacles = []
-                    # self.env.create_mixed_home_layout()
-                    self.env.set_robot(100, 100, "Robbie")
+                    self.env.create_mixed_home_layout()
+                    self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
                 elif event.key == pygame.K_1:
                     # ----- Scenario 2: Living room -----
                     self.env.obstacles = []
                     self.env.create_living_room_layout()
-                    self.env.set_robot(100, 100, "Robbie")
+                    self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
                 elif event.key == pygame.K_2:
                     # ----- Scenario 3: Kitchen -----
                     self.env.obstacles = []
                     self.env.create_kitchen_layout()
-                    self.env.set_robot(100, 100, "Robbie")
+                    self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
                 elif event.key == pygame.K_3:
                     # ----- Scenario 4: Bedroom -----
                     self.env.obstacles = []
                     self.env.create_bedroom_layout()
-                    self.env.set_robot(100, 100, "Robbie")
+                    self.env.set_robot(100, 100, "Harry")
                     self.env.set_target(850, 600)
+                elif event.key == pygame.K_s:
+                    self.show_slam = not self.show_slam
+                    print(f"SLAM display: {'ON' if self.show_slam else 'OFF'}")
     
     def update(self):
         if not self.paused and self.env.robot and self.env.target:
@@ -85,17 +102,23 @@ class SimulationManager:
                     break
     
     def run(self):
+        # ----- Main simulation loop -----
         while self.running:
             self.handle_events()
             self.update()
-            
-            # ----- Clear screen fixed using APP_COLORS.BACKGROUND instead of APP_COLORS -----
-            self.screen.fill(APP_COLORS.BACKGROUND)
-            
-            # ----- Draw environment -----
+            # Clear screen - Because it adds it to the actual total
+            self.screen.fill(APP_COLORS.BACKGROUND_LIGHT)
+            # Draw environment - obstacles, target
             self.env.draw(self.screen)
             
-            # ----- Draw UI -----
+            # ----- Draw SLAM if enabled -----
+            if hasattr(self, 'show_slam') and self.show_slam and hasattr(self, 'slam'):
+                self.slam.draw(self.screen, show_grid=True)
+                # Also draw the stats
+                if hasattr(self, 'ui'):
+                    self.ui.draw_slam_stats(self.slam)
+            
+            # ----- Draw dashboard -----
             target_reached = (self.env.target and self.env.target.reached)
             self.ui.draw_dashboard(
                 self.env.robot, 
@@ -103,7 +126,7 @@ class SimulationManager:
                 self.paused, 
                 self.speed_multiplier
             )
-            self.ui.draw_target_text(target_reached)
+            self.ui.draw_target_reached(target_reached)
             
             # ----- Update display -----
             pygame.display.flip()

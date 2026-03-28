@@ -1,3 +1,13 @@
+# ------------------------------------------------------------
+# Student Name       : Kiran Manikandan
+# Student ID         : 24062131
+# University         : University of Hertfordshire
+# Description        : Create, Initialize and Control the robot. Only robot's methods are present in this class.
+# Last Modifide Date : 28-03-2026
+
+# Copyright (c) 2026 Kiran Manikandan
+# ------------------------------------------------------------
+
 import math
 import pygame
 from .config import *
@@ -61,11 +71,8 @@ class HomeRobot:
                 
                 # ----- Angular difference between ray and direction to obstacle -----
                 angle_diff = abs(angle_to_obstacle - ray_angle)
-                while angle_diff > math.pi:
-                    angle_diff -= 2 * math.pi
-                while angle_diff < -math.pi:
-                    angle_diff += 2 * math.pi
-                angle_diff = abs(angle_diff)
+                normalized_angle = normalize_angle(angle_diff)
+                angle_diff = abs(normalized_angle)
                 
                 # ----- If ray points roughly toward obstacle (within 30 degrees) -----
                 if angle_diff < math.radians(30):
@@ -235,22 +242,22 @@ class HomeRobot:
                 end_y = self.y + math.sin(ray_angle) * ray_length
 
                 if ray_length < SAFE_DISTANCE:
-                    color = APP_COLORS.COLLISION
+                    color = APP_COLORS.COLLISION_ALERT
                 elif ray_length < SAFE_DISTANCE * 2:
                     color = (255, 255, 0)
                 else:
-                    color = APP_COLORS.SENSOR_RAY
+                    color = APP_COLORS.SENSOR_WARNING_YELLOW
                 
                 pygame.draw.line(screen, color, (self.x, self.y), (end_x, end_y), 2)
         
         #  ----- Draw robot body with collision warning -----
         if self.collision_warning:
             # Draw warning ring
-            pygame.draw.circle(screen, APP_COLORS.COLLISION, 
+            pygame.draw.circle(screen, APP_COLORS.COLLISION_ALERT, 
                              (int(self.x), int(self.y)), ROBOT_RADIUS + 5, 3)
         
-        pygame.draw.circle(screen, APP_COLORS.ROBOT, (int(self.x), int(self.y)), ROBOT_RADIUS)
-        pygame.draw.circle(screen, APP_COLORS.ROBOT_SENSOR, (int(self.x), int(self.y)), ROBOT_RADIUS, 2)
+        pygame.draw.circle(screen, APP_COLORS.ROBOT_PRIMARY_BLUE, (int(self.x), int(self.y)), ROBOT_RADIUS)
+        pygame.draw.circle(screen, APP_COLORS.ROBOT_ACCENT_BLUE, (int(self.x), int(self.y)), ROBOT_RADIUS, 2)
         
         # ----- Draw direction indicator -----
         eye_offset = ROBOT_RADIUS * 0.5
@@ -262,5 +269,5 @@ class HomeRobot:
         
         # ----- Draw robot's name -----
         font = pygame.font.Font(None, 20)
-        text = font.render(self.name, True, APP_COLORS.TEXT)
+        text = font.render(self.name, True, APP_COLORS.TEXT_DARK)
         screen.blit(text, (self.x - 20, self.y - ROBOT_RADIUS - 20))

@@ -1,3 +1,13 @@
+# ------------------------------------------------------------
+# Student Name       : Kiran Manikandan
+# Student ID         : 24062131
+# University         : University of Hertfordshire
+# Description        : Application models, better for code reusability
+# Last Modifide Date : 28-03-2026
+
+# Copyright (c) 2026 Kiran Manikandan
+# ------------------------------------------------------------
+
 from enum import Enum
 from dataclasses import dataclass
 from .config import *
@@ -14,9 +24,9 @@ class Obstacle:
     x: float
     y: float
     radius: float
-    color: tuple = APP_COLORS.OBSTACLE
+    color: tuple = APP_COLORS.OBSTACLE_PRIMARY_RED
     
-    def __init__(self, x, y, radius, color=APP_COLORS.OBSTACLE):
+    def __init__(self, x, y, radius, color=APP_COLORS.OBSTACLE_PRIMARY_RED):
         self.x = x
         self.y = y
         self.radius = radius

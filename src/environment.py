@@ -1,6 +1,17 @@
+# ------------------------------------------------------------
+# Student Name       : Kiran Manikandan
+# Student ID         : 24062131
+# University         : University of Hertfordshire
+# Description        : Create and maintain simulation environment
+# Last Modifide Date : 28-03-2026
+
+# Copyright (c) 2026 Kiran Manikandan
+# ------------------------------------------------------------
+
 import pygame
 from .config import *
 from .models import Obstacle, Target
+from .robot import HomeRobot
 
 class HomeEnvironment:
 
@@ -15,7 +26,7 @@ class HomeEnvironment:
     # ----- Living Room Layout -----
     def create_living_room_layout(self):
         self.obstacles = [
-            Obstacle(300, 200, 80, (139, 69, 19)),    # Brown sofa
+            Obstacle(300, 200, 80, (139, 69, 19)),    # sofa
             Obstacle(300, 280, 80, (160, 82, 45)),    # Cushions
             Obstacle(500, 400, 40, (210, 180, 140)),  # Coffee table
             Obstacle(700, 200, 60, (105, 105, 105)),  # TV stand
@@ -74,18 +85,16 @@ class HomeEnvironment:
     
      # ----- Set Robot in the Environment -----
     def set_robot(self, x, y, name="Home Env Robot"):
-        from .robot import HomeRobot
         self.robot = HomeRobot(x, y, name)
         return self.robot
     
      # ----- Draw Home Background -----
     def draw_background_grid(self, screen):
-        """Draw a light grid background"""
         # Draw grid lines
         for x in range(0, self.width, 50):
-            pygame.draw.line(screen, APP_COLORS.GRID, (x, 0), (x, self.height), 1)
+            pygame.draw.line(screen, APP_COLORS.GRID_LIGHT, (x, 0), (x, self.height), 1)
         for y in range(0, self.height, 50):
-            pygame.draw.line(screen, APP_COLORS.GRID, (0, y), (self.width, y), 1)
+            pygame.draw.line(screen, APP_COLORS.GRID_LIGHT, (0, y), (self.width, y), 1)
     
      # ----- Draw the Rnvironment -----
     def draw(self, screen):
@@ -109,25 +118,24 @@ class HomeEnvironment:
                 alpha = 100 - i * 30
                 glow_radius = self.target.radius + i * 5
                 glow_surface = pygame.Surface((glow_radius*2, glow_radius*2), pygame.SRCALPHA)
-                pygame.draw.circle(glow_surface, (*APP_COLORS.TARGET_GLOW, alpha), 
+                pygame.draw.circle(glow_surface, (*APP_COLORS.TARGET_GLOW_MINT, alpha), 
                                  (glow_radius, glow_radius), glow_radius)
                 screen.blit(glow_surface, 
                           (self.target.x - glow_radius, self.target.y - glow_radius))
             
-            # Draw target
-            pygame.draw.circle(screen, APP_COLORS.TARGET, 
+            pygame.draw.circle(screen, APP_COLORS.TARGET_SUCCESS_GREEN, 
                               (int(self.target.x), int(self.target.y)), self.target.radius)
             pygame.draw.circle(screen, (255, 255, 255), 
                               (int(self.target.x), int(self.target.y)), self.target.radius, 2)
             
             # Draw target text
             font = pygame.font.Font(None, 20)
-            text = font.render("TARGET", True, APP_COLORS.TARGET)
+            text = font.render("TARGET", True, APP_COLORS.TARGET_SUCCESS_GREEN)
             screen.blit(text, (self.target.x - 30, self.target.y - self.target.radius - 20))
         
         # Draw robot path
         if self.robot and len(self.robot.path) > 1:
-            pygame.draw.lines(screen, APP_COLORS.PATH, False, self.robot.path, 2)
+            pygame.draw.lines(screen, APP_COLORS.TRAJECTORY_PURPLE, False, self.robot.path, 2)
         
         # Draw robot
         if self.robot:
