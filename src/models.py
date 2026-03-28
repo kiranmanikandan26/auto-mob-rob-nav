@@ -24,9 +24,9 @@ class Obstacle:
     x: float
     y: float
     radius: float
-    color: tuple = APP_COLORS.OBSTACLE
+    color: tuple = APP_COLORS.OBSTACLE_PRIMARY_RED
     
-    def __init__(self, x, y, radius, color=APP_COLORS.OBSTACLE):
+    def __init__(self, x, y, radius, color=APP_COLORS.OBSTACLE_PRIMARY_RED):
         self.x = x
         self.y = y
         self.radius = radius

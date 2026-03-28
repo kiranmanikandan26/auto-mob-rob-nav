@@ -30,7 +30,7 @@ class UIManager:
         y_offset = 20
         
         # ----- Draw Title -----
-        title = self.title_font.render("Home Env Robot", True, APP_COLORS.TEXT)
+        title = self.title_font.render("Home Env Robot", True, APP_COLORS.TEXT_DARK)
         self.screen.blit(title, (20, y_offset))
         y_offset += 35
         
@@ -38,33 +38,33 @@ class UIManager:
         if robot:
             status_text = self.font.render(
                 f"Status: {robot.state.value}", 
-                True, APP_COLORS.TEXT)
+                True, APP_COLORS.TEXT_DARK)
             self.screen.blit(status_text, (20, y_offset))
             y_offset += 25
             
             # ----- Robot position -----
             pos_text = self.font.render(
                 f"Position: ({int(robot.x)}, {int(robot.y)})", 
-                True, APP_COLORS.TEXT)
+                True, APP_COLORS.TEXT_DARK)
             self.screen.blit(pos_text, (20, y_offset))
             y_offset += 25
             
             # ----- Metrics -----
             dist_text = self.font.render(
                 f"Distance: {int(robot.total_distance)} px", 
-                True, APP_COLORS.TEXT)
+                True, APP_COLORS.TEXT_DARK)
             self.screen.blit(dist_text, (20, y_offset))
             y_offset += 25
             
             avoid_text = self.font.render(
                 f"Obstacles avoided: {robot.obstacles_avoided}", 
-                True, APP_COLORS.TEXT)
+                True, APP_COLORS.TEXT_DARK)
             self.screen.blit(avoid_text, (20, y_offset))
             y_offset += 25
             
             steps_text = self.font.render(
                 f"Steps: {robot.steps}", 
-                True, APP_COLORS.TEXT)
+                True, APP_COLORS.TEXT_DARK)
             self.screen.blit(steps_text, (20, y_offset))
             y_offset += 35
             
@@ -81,7 +81,7 @@ class UIManager:
         ]
         
         for control in controls:
-            ctrl_text = self.small_font.render(control, True, APP_COLORS.TEXT)
+            ctrl_text = self.small_font.render(control, True, APP_COLORS.TEXT_DARK)
             self.screen.blit(ctrl_text, (20, y_offset))
             y_offset += 18
         
@@ -100,7 +100,7 @@ class UIManager:
             size = int(36 + pulse * 20)
             
             font = pygame.font.Font(None, size)
-            text = font.render("TARGET REACHED!", True, APP_COLORS.TARGET)
+            text = font.render("TARGET REACHED!", True, APP_COLORS.TARGET_SUCCESS_GREEN)
             text_rect = text.get_rect(center=(WINDOW_WIDTH//2, 100))
             self.screen.blit(text, text_rect)
     

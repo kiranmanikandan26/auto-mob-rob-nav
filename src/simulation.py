@@ -107,7 +107,7 @@ class SimulationManager:
             self.handle_events()
             self.update()
             # Clear screen - Because it adds it to the actual total
-            self.screen.fill(APP_COLORS.BACKGROUND)
+            self.screen.fill(APP_COLORS.BACKGROUND_LIGHT)
             # Draw environment - obstacles, target
             self.env.draw(self.screen)
             
