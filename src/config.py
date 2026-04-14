@@ -35,8 +35,8 @@ ROBOT_RADIUS = 20
 ROBOT_MAX_SPEED = 2.3
 ROBOT_TURN_SPEED = 0.035
 SENSOR_RANGE = 120
-SENSOR_ANGLES = [-60, -30, 0, 30, 60]
-SAFE_DISTANCE = ROBOT_RADIUS * 2.8
+SENSOR_ANGLES = [-60, -30, 0, 30, 60] # ----- Degrees relative to robot facing
+SAFE_DISTANCE = ROBOT_RADIUS * 2.8 # -------- 56 pixels
 
 # ----- Helper Functions -----
 # Normalize the Robot's Angle, Used in sense method in robot.py

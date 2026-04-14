@@ -14,7 +14,7 @@ from .config import *
 from .models import RobotState
 
 class HomeRobot:
-    def __init__(self, x, y, name="Buddy"):
+    def __init__(self, x, y, name="Harry"):
         # ----- Initialize the robot at start -----
         self.x = x
         self.y = y
