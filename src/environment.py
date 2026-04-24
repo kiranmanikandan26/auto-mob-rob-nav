@@ -3,7 +3,7 @@
 # Student ID         : 24062131
 # University         : University of Hertfordshire
 # Description        : Create and maintain simulation environment
-# Last Modifide Date : 28-03-2026
+# Last Modifide Date : 24-04-2026
 
 # Copyright (c) 2026 Kiran Manikandan
 # ------------------------------------------------------------
@@ -90,53 +90,59 @@ class HomeEnvironment:
     
      # ----- Draw Home Background -----
     def draw_background_grid(self, screen):
-        # Draw grid lines
-        for x in range(0, self.width, 50):
-            pygame.draw.line(screen, APP_COLORS.GRID_LIGHT, (x, 0), (x, self.height), 1)
-        for y in range(0, self.height, 50):
-            pygame.draw.line(screen, APP_COLORS.GRID_LIGHT, (0, y), (self.width, y), 1)
+        try:
+            # Draw grid lines
+            for x in range(0, self.width, 50):
+                pygame.draw.line(screen, APP_COLORS.GRID_LIGHT, (x, 0), (x, self.height), 1)
+            for y in range(0, self.height, 50):
+                pygame.draw.line(screen, APP_COLORS.GRID_LIGHT, (0, y), (self.width, y), 1)
+        except Exception as e:
+            exception_handler(e, ERR_LG_FILES.ENV)
     
      # ----- Draw the Rnvironment -----
     def draw(self, screen):
-        # Draw background grid
-        self.draw_background_grid(screen)
-        
-        # Draw obstacles
-        for obs in self.obstacles:
-            # Draw shadow (for 3D effect) -- Fine Tuning
-            pygame.draw.circle(screen, (200, 200, 200), 
-                              (int(obs.x + 5), int(obs.y + 5)), obs.radius)
-            # Draw obstacle
-            pygame.draw.circle(screen, obs.color, (int(obs.x), int(obs.y)), obs.radius)
-            pygame.draw.circle(screen, APP_COLORS.OBSTACLE_BOUNDARY, 
-                              (int(obs.x), int(obs.y)), obs.radius, 2)
-        
-        # Draw target if exists
-        if self.target and not self.target.reached:
-            # Draw glow effect -- Fine Tuning
-            for i in range(3):
-                alpha = 100 - i * 30
-                glow_radius = self.target.radius + i * 5
-                glow_surface = pygame.Surface((glow_radius*2, glow_radius*2), pygame.SRCALPHA)
-                pygame.draw.circle(glow_surface, (*APP_COLORS.TARGET_GLOW_MINT, alpha), 
-                                 (glow_radius, glow_radius), glow_radius)
-                screen.blit(glow_surface, 
-                          (self.target.x - glow_radius, self.target.y - glow_radius))
+        try:
+            # Draw background grid
+            self.draw_background_grid(screen)
             
-            pygame.draw.circle(screen, APP_COLORS.TARGET_SUCCESS_GREEN, 
-                              (int(self.target.x), int(self.target.y)), self.target.radius)
-            pygame.draw.circle(screen, (255, 255, 255), 
-                              (int(self.target.x), int(self.target.y)), self.target.radius, 2)
+            # Draw obstacles
+            for obs in self.obstacles:
+                # Draw shadow (for 3D effect) -- Fine Tuning
+                pygame.draw.circle(screen, (200, 200, 200), 
+                                (int(obs.x + 5), int(obs.y + 5)), obs.radius)
+                # Draw obstacle
+                pygame.draw.circle(screen, obs.color, (int(obs.x), int(obs.y)), obs.radius)
+                pygame.draw.circle(screen, APP_COLORS.OBSTACLE_BOUNDARY, 
+                                (int(obs.x), int(obs.y)), obs.radius, 2)
             
-            # Draw target text
-            font = pygame.font.Font(None, 20)
-            text = font.render("TARGET", True, APP_COLORS.TARGET_SUCCESS_GREEN)
-            screen.blit(text, (self.target.x - 30, self.target.y - self.target.radius - 20))
-        
-        # Draw robot path
-        if self.robot and len(self.robot.path) > 1:
-            pygame.draw.lines(screen, APP_COLORS.TRAJECTORY_PURPLE, False, self.robot.path, 2)
-        
-        # Draw robot
-        if self.robot:
-            self.robot.draw(screen)
+            # Draw target if exists
+            if self.target and not self.target.reached:
+                # Draw glow effect -- Fine Tuning
+                for i in range(3):
+                    alpha = 100 - i * 30
+                    glow_radius = self.target.radius + i * 5
+                    glow_surface = pygame.Surface((glow_radius*2, glow_radius*2), pygame.SRCALPHA)
+                    pygame.draw.circle(glow_surface, (*APP_COLORS.TARGET_GLOW_MINT, alpha), 
+                                    (glow_radius, glow_radius), glow_radius)
+                    screen.blit(glow_surface, 
+                            (self.target.x - glow_radius, self.target.y - glow_radius))
+                
+                pygame.draw.circle(screen, APP_COLORS.TARGET_SUCCESS_GREEN, 
+                                (int(self.target.x), int(self.target.y)), self.target.radius)
+                pygame.draw.circle(screen, (255, 255, 255), 
+                                (int(self.target.x), int(self.target.y)), self.target.radius, 2)
+                
+                # Draw target text
+                font = pygame.font.Font(None, 20)
+                text = font.render("TARGET", True, APP_COLORS.TARGET_SUCCESS_GREEN)
+                screen.blit(text, (self.target.x - 30, self.target.y - self.target.radius - 20))
+            
+            # Draw robot path
+            if self.robot and len(self.robot.path) > 1:
+                pygame.draw.lines(screen, APP_COLORS.TRAJECTORY_PURPLE, False, self.robot.path, 2)
+            
+            # Draw robot
+            if self.robot:
+                self.robot.draw(screen)
+        except Exception as e:
+            exception_handler(e, ERR_LG_FILES.ENV)

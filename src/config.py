@@ -3,17 +3,27 @@
 # Student ID         : 24062131
 # University         : University of Hertfordshire
 # Description        : Appliccation configuration file with reusable helper functions
-# Last Modifide Date : 28-03-2026
+# Last Modifide Date : 24-04-2026
 
 # Copyright (c) 2026 Kiran Manikandan
 # ------------------------------------------------------------
 
 import math
+import datetime
+import traceback
 
 # ----- Window Settings -----
 WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 700
 FPS = 60
+
+# ----- Robot Settings -----
+ROBOT_RADIUS = 20
+ROBOT_MAX_SPEED = 2.3
+ROBOT_TURN_SPEED = 0.035
+SENSOR_RANGE = 120
+SENSOR_ANGLES = [-60, -30, 0, 30, 60] # ----- Degrees relative to robot facing
+SAFE_DISTANCE = ROBOT_RADIUS * 2.8 # -------- 56 pixels
 
 # ----- Application Colors, all colors are in RGB -----
 class APP_COLORS:
@@ -30,19 +40,32 @@ class APP_COLORS:
     GRID_LIGHT = (220, 220, 220)                    # Differntiate grid lines for SLAM - Light gray
     COLLISION_ALERT = (255, 0, 0)                   # Collision alert warning - Red
 
-# ----- Robot Settings -----
-ROBOT_RADIUS = 20
-ROBOT_MAX_SPEED = 2.3
-ROBOT_TURN_SPEED = 0.035
-SENSOR_RANGE = 120
-SENSOR_ANGLES = [-60, -30, 0, 30, 60] # ----- Degrees relative to robot facing
-SAFE_DISTANCE = ROBOT_RADIUS * 2.8 # -------- 56 pixels
+# ----- Application error logs, seperate log files created for each file -----
+class ERR_LG_FILES:
+    ROBOT = "robot"
+    ENV = "environment"
+    SIMULATION = "simulation"
+    SLAM = "slam"
+    UI = "user_interface"
 
-# ----- Helper Functions -----
-# Normalize the Robot's Angle, Used in sense method in robot.py
+# --------------- Helper Functions ---------------
+#----- Normalize the Robot's Angle, Used in sense method in robot.py -----
 def normalize_angle(angle):
     while angle > math.pi:
         angle -= 2 * math.pi
     while angle < -math.pi:
         angle += 2 * math.pi
     return angle
+
+#----- Log Exceptions into the given file name -----
+def exception_handler(error, file_name):
+    try:
+        with open(f"./error_logs/{file_name}.txt", "a") as file:
+            file.write("\n-----------------------------\n")
+            file.write(f"Time: {datetime.datetime.now()}\n")
+            file.write(f"Error: {str(error)}\n")
+            file.write("Trace:\n")
+            file.write(traceback.format_exc())
+            file.write("\n-----------------------------\n")
+    except Exception as e:
+        print(e)
